@@ -31,13 +31,16 @@ addons:
     - libcairo2-dev
     - libglib2.0-dev
 before_install:
-- wget http://ftp.debian.org/debian/pool/main/p/patchelf/patchelf_0.8-2_amd64.deb -O /tmp/patchelf_0.8-2_amd64.deb
-- wget https://github.com/nomad-desktop/precompiled-kf5-linux/releases/download/continuous/kf5-5.44.0-Release-ubuntu-trusty-amd64.tar.xz -O /tmp/kf5-5.44.0-Release-ubuntu-trusty-amd64.tar.xz
+- wget http://ftp.debian.org/debian/pool/main/p/patchelf/patchelf_0.8-2_amd64.deb
+  -O /tmp/patchelf_0.8-2_amd64.deb
+- wget https://github.com/nomad-desktop/precompiled-kf5-linux/releases/download/continuous/kf5-5.44.0-Release-ubuntu-trusty-amd64.tar.xz
+  -O /tmp/kf5-5.44.0-Release-ubuntu-trusty-amd64.tar.xz
 install:
 - sudo dpkg -i /tmp/patchelf_0.8-2_amd64.deb
 - sudo tar xpf /tmp/kf5-5.44.0-Release-ubuntu-trusty-amd64.tar.xz -C /usr/
 - sudo update-alternatives --install /usr/bin/qmake qmake /opt/qt510/bin/qmake 1
-- sudo update-alternatives --install /usr/bin/qmlimportscanner qmlimportscanner /opt/qt510/bin/qmlimportscanner  1
+- sudo update-alternatives --install /usr/bin/qmlimportscanner qmlimportscanner /opt/qt510/bin/qmlimportscanner
+  1
 script:
 - "/opt/qt510/bin/qt510-env.sh"
 - export QT_SELECT=qt5
@@ -48,7 +51,8 @@ script:
 - sudo ldconfig -c /opt/qt510/lib/ /usr/lib/x86_64-linux-gnu/
 - build_scripts/appimage.create.sh
 after_success:
-- find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+- find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f
+  2-3 | sort | uniq
 - mkdir out
 - mv -v Software_Center*.AppImage* out/
 - curl --upload-file "{$(echo out/* | tr ' ' ',')}" https://transfer.sh/
@@ -68,7 +72,7 @@ deploy:
   prerelease: true
   overwrite: true
   on:
-    repo: lnxslck/nx-software-center
+    repo: Nitrux/nx-software-center
     branch: master
     tags: true
 notifications:
